@@ -1,0 +1,433 @@
+Wirble 0.1.2 README
+===================
+
+This document was last updated on Fri Sep 08 13:16:55 2006.  See the
+file COPYING for licensing and warranty information.  The latest version
+of this software is available at the following URL:
+
+    http://pablotron.org/software/wirble/
+
+Table of Contents
+=================
+  * Introduction to Wirble
+  * Installing Wirble
+      o Via RubyGems
+      o Via a Tarball
+      o As a User
+  * Using Wirble
+      o Editing Your ~/.irbrc
+      o Enabling Color
+  * Configuring Wirble
+  * Color Settings
+      o Color Keys
+      o Color Values
+      o Default Color Map
+  * Frequently Asked Questions (FAQ)
+  * Reporting Bugs
+  * About the Author
+
+
+Introduction to Wirble
+======================
+Wirble is a set of enhancements to Irb all included together in one
+easy-to-use package.  Specifically, Wirble adds a saved history, a
+couple of useful shortcuts, and color to Irb.  Wirble also enables a
+Irb's built-in tab-completion and a simpler prompt.
+
+Before we begin, I should mention that several of Wirble's features were
+shamelessly inspired (read: borrowed with extreme prejudice) from the
+"Irb Tips and Tricks" page of the Ruby Garden Wiki, which you can find
+at the following URL:
+
+    http://wiki.rubygarden.org/Ruby/page/show/Irb/TipsAndTricks
+
+In particular, the Irb history and ri features bear a striking
+resemblence to their Ruby Garden counterparts.
+
+
+Installing Wirble
+=================
+The easiest way to install Wirble is via RubyGems
+(http://rubygems.org/).  If you've already got RubyGems installed,
+simply do the following, then skip to the "Using Wirble" section below:
+
+    # install wirble via RubyGems
+    sudo gem install wirble
+
+If you don't have RubyGems, you can also install the Wirble library
+this:
+
+    # install wirble to library directory
+    sudo cp -v wirble.rb $(ruby -e 'puts $LOAD_PATH[0]')
+
+Or, if you don't use sudo, you can do the same thing with su, like so:
+
+    # install wirble to library directory
+    su -c "cp -v wirble.rb $(ruby -e 'puts $LOAD_PATH[0]')"
+
+Finally, if you don't have an administrator account, you can still
+install Wirble in your local home directory like so:
+
+    # create local ruby library directory
+    mkdir ~/.ruby && chmod 700 ~/.ruby
+    cp -v wirble.rb ~/.ruby
+
+Then add the following line at the _top_ of your ~/.irbrc file:
+
+    # add ~/.ruby to the library search path
+    $LOAD_PATH << File.expand_path('~/.ruby')
+
+
+Using Wirble
+============
+Using Wirble is easy: just add the following lines to your ~/.irbrc
+file:
+
+    # load rubygems and wirble
+    require 'rubygems' rescue nil
+    require 'wirble'
+
+    # load wirble
+    Wirble.init
+
+A lot of people really don't like colors, so I've kept the color
+disabled by default.  To enable it, add the following bit to your
+~/.irbrc file after "Wirble.init":
+
+    # enable color
+    Wirble.colorize
+
+If you want to terrify your grandmother and impress your buddies, your
+entire ~/.irbrc can also be written like so:
+
+    %w{rubygems wirble}.each { |lib| require lib rescue nil }
+    %w{init colorize}.each { |str| Wirble.send(str.intern) }
+
+Configuring Wirble
+==================
+You can pass a hash of options to Wirble.init in order to adjust the
+behavior of Wirble.  Here's a full list of options and a brief
+description of each one:
+
+  * :skip_internals
+
+    Don't load the internal Irb features.  Equivalent to setting both
+    :skip_libraries and :skip_prompt (see below).
+
+  * :skip_libraries
+
+    Don't load any libraries.  At the moment, Wirble attempts to load
+    the following libraries: "pp", "irb/completion", and "rubygems".
+
+  * :skip_prompt
+
+    Down't load the simple prompt.  Shouldn't ever be necessary, but
+    I've included it for the sake of completeness.  Wirble's default
+    behavior is to the prompt setting before making any changes.  If the
+    prompt is anything other than :DEFAULT, Wirble won't override it.
+
+  * :skip_history
+
+    Don't load the Irb history.  There are a few additional history
+    options as well; see :history_path, :history_size, and
+    :history_perms below.
+
+  * :history_path 
+
+    Set the path to the Irb history file.  Defaults to "~/.irb_history".
+    If an environment variable named IRB_HISTORY_FILE is set, Wirble
+    will use that instead of the default value.
+
+  * :history_size
+
+    Set the size (in lines) of the Irb history file.  Defaults to 1000
+    lines.  If an environment variable named IRB_HISTORY_SIZE is set,
+    Wirble will use that instead of the default value.
+
+  * :history_perms
+
+    Set the permissions of the Irb history file.  Defaults to
+    File::WRONLY.
+
+  * :skip_shortcuts
+
+    Don't load any shortcut methods.  at the moment there are three
+    shortcut methods: "ri", "po", and "poc". The first calls the "ri"
+    command on the specified value -- you"ll need to use proper quoting
+    to pass the name properly.  As for "po" and "poc": the former lists
+    an object's instance methods (excluding methods that belong to
+    Object), sorted by name, and the latter lists an object's constants,
+    sorted by name.
+
+  * :init_colors
+
+    Enable colors.  Equivalent to calling Wirble.colorize directly.
+
+  * :colors
+
+    A hash of colors.  Only makes sense in conjunction with the
+    :init_colors option.  See below for additional information on
+    customizing color settings.
+ 
+Here's an example of passing a list of options to Wirble.init():
+
+    wirble_opts = {
+      # skip shortcuts
+      :skip_shortcuts => true,
+
+      # don't set the prompt
+      :skip_prompt    => true,
+
+      # override some of the default colors
+      :colors => {
+        :open_hash    => :green.
+        :close_hash   => :green.
+        :string       => :blue,
+      },
+
+      # enable color
+      :init_color     => true,
+    }
+
+    # initialize wirble with options above
+    Wirble.init(wirble_opts)
+
+For a full description of the color options, see the next section.
+
+
+Color Settings
+==============
+You can set colors in Wirble by passing a hash of color options via
+Wirble.init (see the :color option for Wirble.init above), or by setting
+Wirble::Colorize.color directly.  For example:
+
+    # get the default colors and add in your own
+    colors = Wirble::Colorize.colors.merge({
+      # set the comma color to blue
+      :comma => :blue,
+    })
+
+    # set the colors used by Wirble
+    Wirble::Colorize.colors = colors
+
+Below is a list of all the recognized color keys.  
+ 
+  * :comma (',')
+
+    A comma character.  The element delimiter in arrays and hashes.
+
+  * :refers ('=>')
+
+    The hash reference operator.  The key/value delimiter in hashes.
+
+  * :open_hash ('{')
+
+    The opening curly brace for a hash.
+
+  * :close_hash ('}')
+
+    The opening curly brace for a hash.
+
+  * :open_array ('[')
+
+    The opening brace for a array.
+
+  * :close_array (']')
+
+    The opening brace for a array.
+
+  * :open_object ('#<')
+
+    The opening delimiter for an object.
+
+  * :close_object ('>')
+
+    The closing delimiter for an object inspection.
+
+  * :object_class 
+
+    The class attribute of an object inspection.  For example, in the
+    string "#<Proc:0xb7be4968@(irb):8>", the string "Proc" is the class
+    attribute.
+
+  * :object_addr_prefix (':')
+
+    The colon prefixing the address attribute of an object inspection.
+    For example, in the string "#<Proc:0xb7be4968@(irb):8>", the string
+    "0xb7be4968" is the memory address attribute, so the ':' is the
+    address prefix.
+
+  * :object_addr
+
+    The memory address attribute of an object inspection.  For example,
+    in the string "#<Proc:0xb7be4968@(irb):8>", the string "0xb7be4968"
+    is the memory address attribute.
+
+  * :object_addr_prefix ('@')
+
+    The at symbol prefixing the line attribute of an object inspection.
+    For example, in the string "#<Proc:0xb7be4968@(irb):8>", the string
+    "(irb):8" is the line attribute, so the '@' is the line attribute
+    prefix.
+
+  * :object_line
+
+    The line number attribute of an object inspection.  For example,
+    in the string "#<Proc:0xb7be4968@(irb):8>", the string "(irb):8"
+    is the line number attribute.
+
+  * :symbol_prefix (':')
+
+    The colon prefix for a symbol object.
+
+  * :symbol 
+
+    The string of a symbol object.
+
+  * :open_string ('"')
+
+    The opening quote of a string object.
+
+  * :close_string ('"')
+
+    The closing quote of a string object.
+
+  * :number
+
+    A number (integer or float).
+
+  * :range ('..')
+
+    The delimeter of a range object.
+
+  * :keyword
+
+    A built-in Ruby keyword.  This includes values like "true", "false",
+    and "nil".
+
+  * :class
+    
+    A class.  This includes strings like "Class" and "Object".
+
+  * :whitespace
+
+    Whitespace character (i.e. space, newline, tab, etc).
+
+The highlighting is implemented with a simple hand-rolled state-based
+tokenizer (wow, that was a mouthful).  This should be adequate most of
+the time, but since it's not a actual LALR parser, Wirble can get
+confused in a few specific instances.  If you find a serious
+highlighting problem, please let me know.  Oh yeah, before I forget,
+here's a list of the valid color codes:
+
+        :nothing        :green            :light_purple
+        :black          :light_blue       :purple
+        :blue           :light_cyan       :red
+        :brown          :light_gray       :white
+        :cyan           :light_green      :yellow
+        :dark_gray      :light_red
+
+Note that I'm not a designer, and I also use a terminal with a dark
+background.  I've also been accused of having a Vim color scheme that
+looks like "a beat up clown".  With those caveats in mind, here's the
+default color scheme for Wirble:
+
+    #
+    # Default Wirble color scheme.
+    # 
+    DEFAULT_COLORS = {
+      # delimiter colors
+      :comma              => :blue,
+      :refers             => :blue,
+
+      # container colors (hash and array)
+      :open_hash          => :green,
+      :close_hash         => :green,
+      :open_array         => :green,
+      :close_array        => :green,
+
+      # object colors
+      :open_object        => :light_red,
+      :object_class       => :white,
+      :object_addr_prefix => :blue,
+      :object_line_prefix => :blue,
+      :close_object       => :light_red,
+
+      # symbol colors
+      :symbol             => :yellow,
+      :symbol_prefix      => :yellow,
+
+      # string colors
+      :open_string        => :red,
+      :string             => :cyan,
+      :close_string       => :red,
+
+      # misc colors
+      :number             => :cyan,
+      :keyword            => :green,
+      :class              => :light_green,
+      :range              => :red,
+    }
+
+This map is also available via programmatically via
+Wirble::Colorize::DEFAULT_COLORS.
+
+
+Frequently Asked Questions (FAQ)
+================================
+Q.  Where did the name come from?
+A.  Beats me.  It's the only thing I could find in the dictionary, and
+    the only name I came up with that I could pronounce.
+
+Q.  How do I use color in my Irb prompts?
+A.  You can use standard color escape codes in the format string used by
+    Irb.  For example, to set the user prompt to cyan, you could do
+    something like this:
+
+        ctx = IRB.CurrentContext
+        ctx.prompt_i = Wirble::Colorize.colorize_string(ctx.prompt_i, :cyan)
+
+Q.  How can I do syntax highlighting as I type?
+A.  I don't know.  If there is an answer, I suspect it's not very
+    portable and probably requires some modification to Irb.  There's a
+    sneaky hack called eval.rb that seems to do a little bit of
+    highlight, but it doesn't use Irb, and it doesn't really do what
+    you're asking.  That said, you can find it here:
+
+        http://www.rubyist.net/~slagell/ruby/eval.txt
+
+    Incidentally, part of the problem is that there's no real easy way
+    to do the following:
+
+        1.  Access to the token stream or parser state incrementally.
+        2.  Process partial strings in readline.
+        
+    A bit more about #1:  both Irb and the internal Ruby lexer kind of
+    muddle the traditionally separate concepts of lexer and parser, so
+    it's difficult to, say, parse a string into components and do syntax
+    highlighting on them.  Vim and Emacs both handle this with sneaky
+    regular expressions, and a simple Ruby parser, respectively.  Wirble
+    and Irb both roll their own (albeit limited) Ruby lexers.
+
+
+Reporting Bugs
+==============
+Have a bug to report or a feature you'd like me to add to Wirble?
+Feel free to email me at the address below.  Alternatively, you can
+submit your feature request or bug directly to my bug-tracking web
+interface at the following URL:
+
+    http://bugs.pablotron.org/
+
+Note: you'll need to create an account in order to submit a feature
+request or a bug report via the web interface.  Also, I'm a busy guy!  I
+make every effort to respond quickly to bug reports, but detailed
+descriptions and or patches really do make my life a whole lot easier.
+
+
+About the Author
+================
+Paul Duncan <pabs@pablotron.org>
+http://pablotron.org/
+
+And of course, all the fine folks from the Ruby Garden Wiki. :)

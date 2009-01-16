@@ -1,0 +1,29 @@
+
+* Wed Sep 06 00:01:21 2006, pabs <pabs@pablotron.org>
+  * initial import
+
+* Wed Sep 06 00:10:13 2006, pabs <pabs@pablotron.org>
+  * wirble.rb: remove symbol hackery to prevent
+    ri/rdoc from barfing
+
+* Wed Sep  6 02:49:02 EDT 2006, Paul Duncan <pabs@pablotron.org>
+  * wirble.rb: fix typo
+  * re-release 0.1.0
+
+* Fri Sep  8 04:01:40 EDT 2006, Paul Duncan <pabs@pablotron.org>
+  * README: updated version to 0.1.1
+  * wirble.gemspec: ditto
+  * wirble.rb: ditto
+  * wirble.rb: wrap colorize in an exception (just in case)
+
+* Fri Sep 08 13:11:05 2006, pabs <pabs@pablotron.org>
+  * increment version to 0.1.2
+  * wirble.gemspec: remove rubilicious dependency
+
+* Fri Sep  8 13:17:29 EDT 2006, Paul Duncan <pabs@pablotron.org>
+  * README: increment version to 0.1.2
+  * wirble.gemspec: ditto
+  * wirble.rb: ditto
+
+* Fri Sep 08 13:18:15 2006, pabs <pabs@pablotron.org>
+  * releasing 0.1.2
