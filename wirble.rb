@@ -138,21 +138,21 @@ module Wirble
           case state[-1]
           when nil
             case c
-            when ':': state << :symbol
-            when '"': state << :string
-            when '#': state << :object
+            when ':'  then state << :symbol
+            when '"'  then state << :string
+            when '#'  then state << :object
             when /[a-z]/i
               state << :keyword
               repeat = true
             when /[0-9-]/
               state << :number
               repeat = true
-            when '{': yield :open_hash, '{'
-            when '[': yield :open_array, '['
-            when ']': yield :close_array, ']'
-            when '}': yield :close_hash, '}'
-            when /\s/: yield :whitespace, c
-            when ',': yield :comma, ','
+            when '{'  then yield :open_hash, '{'
+            when '['  then yield :open_array, '['
+            when ']'  then yield :close_array, ']'
+            when '}'  then yield :close_hash, '}'
+            when /\s/ then yield :whitespace, c
+            when ','  then yield :comma, ','
             when '>'
               yield :refers, '=>' if lc == '='
             when '.'
@@ -220,12 +220,12 @@ module Wirble
             end
           when :object
             case c
-            when '<': 
+            when '<' 
               yield :open_object, '#<'
               state << :object_class
-            when ':': 
+            when ':' 
               state << :object_addr
-            when '@': 
+            when '@' 
               state << :object_line
             when '>'
               yield :close_object, '>'
