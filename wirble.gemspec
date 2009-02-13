@@ -1,5 +1,3 @@
-require 'rubygems'
-
 spec = Gem::Specification.new do |s|
 
   #### Basic information.
@@ -19,7 +17,7 @@ spec = Gem::Specification.new do |s|
 
   #### Which files are to be included in this gem?  Everything!  (Except CVS directories.)
 
-  s.files = Dir.glob("**/*").delete_if { |item| item.include?("CVS") }
+  s.files = ['wirble.rb', 'README', 'ChangeLog', 'COPYING']
 
   #### C code extensions.
 
@@ -27,7 +25,6 @@ spec = Gem::Specification.new do |s|
   # s.extensions << "extconf.rb"
 
   #### Load-time details: library and application (you will need one or both).
-  s.autorequire = 'wirble'
   s.has_rdoc = true
   s.rdoc_options = [
     '--webcvs', 'http://cvs.pablotron.org/cgi-bin/viewcvs.cgi/wirble/',
