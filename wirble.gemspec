@@ -29,10 +29,11 @@ spec = Gem::Specification.new do |s|
   #### Load-time details: library and application (you will need one or both).
   s.autorequire = 'wirble'
   s.has_rdoc = true
-  s.rdoc_options = ['--webcvs',
-  'http://cvs.pablotron.org/cgi-bin/viewcvs.cgi/wirble/', '--title',
-  'Wirble API Documentation', 'wirble.rb', 'README', 'ChangeLog',
-  'COPYING']
+  s.rdoc_options = [
+    '--webcvs', 'http://cvs.pablotron.org/cgi-bin/viewcvs.cgi/wirble/',
+    '--title', 'Wirble API Documentation',
+    'wirble.rb', 'README', 'ChangeLog', 'COPYING'
+  ]
 
   #### Author and project details.
 
