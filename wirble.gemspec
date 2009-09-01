@@ -1,40 +1,69 @@
-require 'rubygems'
+--- !ruby/object:Gem::Specification 
+name: wirble
+version: !ruby/object:Gem::Version 
+  version: 0.1.3
+platform: ruby
+authors: 
+- Paul Duncan
+autorequire: wirble
+bindir: bin
+cert_chain: []
 
-spec = Gem::Specification.new do |s|
+date: 2009-09-01 00:00:00 +02:00
+default_executable: 
+dependencies: []
 
-  #### Basic information.
+description: Handful of common Irb features, made easy.
+email: pabs@pablotron.org
+executables: []
 
-  s.name = 'wirble'
-  s.version = '0.1.3'
-  s.summary = <<-EOF
-    Handful of common Irb features, made easy.
-  EOF
-  s.description = <<-EOF
-    A handful of useful Irb features, including colorized results,
-    tab-completion, history, a simple prompt, and several helper
-    methods, all rolled into one easy to use package.
-  EOF
+extensions: []
 
-  s.requirements << 'Ruby, version 1.8.0 (or newer)'
+extra_rdoc_files: []
 
-  # Which files are to be included in this gem?  Everything!  (Except .hg directories.)
-  s.files = Dir.glob("**/*").delete_if { |item| item.include?(".hg") }
+files: 
+- MANIFEST
+- COPYING
+- Rakefile
+- _irbrc
+- README
+- wirble.gemspec
+- ChangeLog
+- lib/wirble.rb
+- setup.rb
+has_rdoc: true
+homepage: http://pablotron.org/software/wirble/
+licenses: []
 
-  # C code extensions.
+post_install_message: 
+rdoc_options: 
+- --title
+- Wirble 0.1.3 API Documentation
+- --webcvs
+- http://hg.pablotron.org/wirble
+- lib/wirble.rb
+- README
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: 
+- none
+rubyforge_project: pablotron
+rubygems_version: 1.3.5
+signing_key: 
+specification_version: 3
+summary: Handful of common Irb features, made easy.
+test_files: []
 
-  s.require_path = '.' # is this correct?
 
-  # Load-time details: library and application (you will need one or both).
-  s.autorequire = 'wirble'
-  s.has_rdoc = true
-  s.rdoc_options = ['--webcvs',
-  'http://hg.pablotron.org/wirble', '--title',
-  'Wirble API Documentation', 'wirble.rb', 'README', 'ChangeLog',
-  'COPYING']
-
-  # Author and project details.
-  s.author = 'Paul Duncan'
-  s.email = 'pabs@pablotron.org'
-  s.homepage = 'http://pablotron.org/software/wirble/'
-  s.rubyforge_project = 'wirble'
-end
