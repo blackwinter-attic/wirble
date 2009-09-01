@@ -1,10 +1,11 @@
 --- !ruby/object:Gem::Specification 
 name: wirble
 version: !ruby/object:Gem::Version 
-  version: 0.1.3
+  version: 0.1.3.1
 platform: ruby
 authors: 
 - Paul Duncan
+- Jens Wille
 autorequire: wirble
 bindir: bin
 cert_chain: []
@@ -14,7 +15,9 @@ default_executable:
 dependencies: []
 
 description: Handful of common Irb features, made easy.
-email: pabs@pablotron.org
+email: 
+- pabs@pablotron.org
+- jens.wille@gmail.com
 executables: []
 
 extensions: []
@@ -38,7 +41,7 @@ licenses: []
 post_install_message: 
 rdoc_options: 
 - --title
-- Wirble 0.1.3 API Documentation
+- Wirble 0.1.3.1 API Documentation
 - --webcvs
 - http://hg.pablotron.org/wirble
 - lib/wirble.rb

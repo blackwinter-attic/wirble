@@ -26,8 +26,8 @@ def package_info
   ret.url           = 'http://pablotron.org/software/wirble/'
 
   # author information
-  ret.author_name   = 'Paul Duncan'
-  ret.author_email  = 'pabs@pablotron.org'
+  ret.author_names  = ['Paul Duncan', 'Jens Wille']
+  ret.author_emails = ['pabs@pablotron.org', 'jens.wille@gmail.com']
 
   # requirements and files
   ret.reqs          = ['none']
@@ -86,8 +86,8 @@ gem_spec = Gem::Specification.new do |s|
   s.rdoc_options = ['--title', pkg.rdoc_title] + pkg.rdoc_options + pkg.rdoc_files
 
   # author and project details
-  s.author    = pkg.author_name
-  s.email     = pkg.author_email
+  s.authors   = pkg.author_names
+  s.email     = pkg.author_emails
   s.homepage  = pkg.url
 
   # gem crypto stuff
