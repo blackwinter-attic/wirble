@@ -70,6 +70,7 @@ module Wirble
       :history_path   => ENV['IRB_HISTORY_FILE'] || "~/.irb_history",
       :history_size   => (ENV['IRB_HISTORY_SIZE'] || 1000).to_i,
       :history_perms  => File::WRONLY | File::CREAT | File::TRUNC,
+      :history_uniq   => true,
     }
  
     private
@@ -83,10 +84,21 @@ module Wirble
     end
 
     def save_history
-      path, max_size, perms = %w{path size perms}.map { |v| cfg(v) }
+      path, max_size, perms, uniq = %w{path size perms uniq}.map { |v| cfg(v) }
 
       # read lines from history, and truncate the list (if necessary)
-      lines = Readline::HISTORY.to_a.uniq
+      lines = Readline::HISTORY.to_a
+
+      if uniq
+        if uniq.to_s == 'reverse'
+          lines.reverse!
+          lines.uniq!
+          lines.reverse!
+        else
+          lines.uniq!
+        end
+      end
+
       lines = lines[-max_size, -1] if lines.size > max_size
 
       # write the history file
