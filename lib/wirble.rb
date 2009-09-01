@@ -19,21 +19,27 @@ require 'ostruct'
 # hair out sifting through the code below.
 # 
 module Wirble
-  VERSION = '0.1.2'
+  VERSION = '0.1.3'
 
   #
-  # Load internal Ruby features, including tab-completion, rubygems,
+  # Load internal Ruby features, including pp, tab-completion, 
   # and a simple prompt.
   #
   module Internals
     # list of internal libraries to automatically load
-    LIBRARIES = %w{pp irb/completion rubygems}
+    LIBRARIES = %w{pp irb/completion}
 
     #
-    # load tab completion and rubygems
+    # load libraries
     #
     def self.init_libraries
-      LIBRARIES.each { |lib| require lib rescue nil }
+      LIBRARIES.each do |lib| 
+        begin
+          require lib 
+        rescue LoadError
+          nil
+        end
+      end
     end
 
     #
@@ -69,7 +75,7 @@ module Wirble
     private
 
     def say(*args)
-      puts *args if @verbose
+      puts(*args) if @verbose
     end
 
     def cfg(key)
@@ -138,21 +144,30 @@ module Wirble
           case state[-1]
           when nil
             case c
-            when ':'  then state << :symbol
-            when '"'  then state << :string
-            when '#'  then state << :object
+            when ':'
+              state << :symbol
+            when '"'
+              state << :string
+            when '#'
+              state << :object
             when /[a-z]/i
               state << :keyword
               repeat = true
             when /[0-9-]/
               state << :number
               repeat = true
-            when '{'  then yield :open_hash, '{'
-            when '['  then yield :open_array, '['
-            when ']'  then yield :close_array, ']'
-            when '}'  then yield :close_hash, '}'
-            when /\s/ then yield :whitespace, c
-            when ','  then yield :comma, ','
+            when '{'
+              yield :open_hash, '{'
+            when '['
+              yield :open_array, '['
+            when ']'
+              yield :close_array, ']'
+            when '}'
+              yield :close_hash, '}'
+            when /\s/
+              yield :whitespace, c
+            when ','
+              yield :comma, ','
             when '>'
               yield :refers, '=>' if lc == '='
             when '.'
