@@ -1,7 +1,7 @@
 --- !ruby/object:Gem::Specification 
 name: wirble
 version: !ruby/object:Gem::Version 
-  version: 0.1.3.1
+  version: 0.1.3.2
 platform: ruby
 authors: 
 - Paul Duncan
@@ -10,7 +10,7 @@ autorequire: wirble
 bindir: bin
 cert_chain: []
 
-date: 2009-09-01 00:00:00 +02:00
+date: 2009-10-30 00:00:00 +01:00
 default_executable: 
 dependencies: []
 
@@ -26,14 +26,16 @@ extra_rdoc_files: []
 
 files: 
 - MANIFEST
-- COPYING
 - Rakefile
 - _irbrc
-- README
-- wirble.gemspec
-- ChangeLog
-- lib/wirble.rb
 - setup.rb
+- COPYING
+- ChangeLog
+- github-test.rb
+- lib/wirble.rb
+- wirble.gemspec
+- README
+- wirble-0.1.2.gem
 has_rdoc: true
 homepage: http://pablotron.org/software/wirble/
 licenses: []
@@ -41,7 +43,7 @@ licenses: []
 post_install_message: 
 rdoc_options: 
 - --title
-- Wirble 0.1.3.1 API Documentation
+- Wirble 0.1.3.2 API Documentation
 - --webcvs
 - http://hg.pablotron.org/wirble
 - lib/wirble.rb
