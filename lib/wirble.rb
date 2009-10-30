@@ -99,7 +99,7 @@ module Wirble
         end
       end
 
-      lines = lines[-max_size, -1] if lines.size > max_size
+      lines.slice!(0, lines.size - max_size) if lines.size > max_size
 
       # write the history file
       real_path = File.expand_path(path)
