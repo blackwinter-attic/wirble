@@ -89,15 +89,9 @@ module Wirble
       # read lines from history, and truncate the list (if necessary)
       lines = Readline::HISTORY.to_a
 
-      if uniq
-        if uniq.to_s == 'reverse'
-          lines.reverse!
-          lines.uniq!
-          lines.reverse!
-        else
-          lines.uniq!
-        end
-      end
+      lines.reverse! if reverse = uniq.to_s == 'reverse'
+      lines.uniq!    if uniq
+      lines.reverse! if reverse
 
       lines.slice!(0, lines.size - max_size) if lines.size > max_size
 
