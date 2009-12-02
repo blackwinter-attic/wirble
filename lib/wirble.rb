@@ -443,7 +443,7 @@ module Wirble
         end
       end
 
-      colors = custom_colors if custom_colors
+      self.colors = custom_colors if custom_colors
     end
 
     #
