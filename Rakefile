@@ -4,7 +4,7 @@
 require 'rake/rdoctask'
 require 'rake/packagetask'
 require 'rake/gempackagetask'
-require 'lib/wirble.rb' 
+require 'lib/wirble.rb'
 
 def package_info
   require 'ostruct'
@@ -31,10 +31,10 @@ def package_info
 
   # requirements and files
   ret.reqs          = ['none']
-  ret.include_files = Dir['**/*'].delete_if { |path| 
-    %w{CVS .svn .hg}.any? { |chunk| path.include?(chunk) }
-  }
-      
+  ret.include_files = Dir['lib/**/*'] + Dir['[A-Z]*'] + %w[
+    sample.irbrc setup.rb
+  ]
+
   # rdoc info
   ret.rdoc_title    = "#{ret.name} #{ret.version} API Documentation"
   ret.rdoc_options  = %w{--webcvs http://hg.pablotron.org/wirble}
@@ -63,7 +63,7 @@ pkg = package_info
 
 gem_spec = Gem::Specification.new do |s|
   # package information
-  s.name      = pkg.name.downcase
+  s.name      = 'blackwinter-' + pkg.name.downcase
   s.platform  = pkg.platform
   s.version   = pkg.version
   s.summary   = s.description = pkg.blurb
@@ -102,7 +102,6 @@ Rake::GemPackageTask.new(gem_spec) do |p|
   # p.need_pgp_signature = true
   p.package_dir = pkg.pkg_dir if pkg.pkg_dir
 end
-
 
 Rake::RDocTask.new do |rd|
   rd.title = pkg.rdoc_title
