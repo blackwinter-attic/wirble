@@ -199,8 +199,8 @@ Here's an example of passing a list of options to Wirble.init():
 
       # override some of the default colors
       :colors => {
-        :open_hash    => :green.
-        :close_hash   => :green.
+        :open_hash    => :green,
+        :close_hash   => :green,
         :string       => :blue,
       },
 
